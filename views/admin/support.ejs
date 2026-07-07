@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Suporte - GexBet Admin</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <h2>👑 GexBet Admin</h2>
+      <nav>
+        <a href="/admin">📊 Dashboard</a>
+        <a href="/admin/users">👥 Usuários</a>
+        <a href="/admin/transactions">📋 Transações</a>
+        <a href="/admin/finances">💰 Financeiro</a>
+        <a href="/admin/games-config">🎮 Config. Jogos</a>
+        <a href="/admin/support" class="active">📨 Suporte</a>
+        <a href="/admin/settings">⚙️ Configurações</a>
+        <a href="/admin/logs">📜 Logs</a>
+        <a href="/">🏠 Voltar</a>
+        <a href="/auth/logout">🚪 Sair</a>
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <h1>📨 Mensagens de Suporte</h1>
+      <div class="messages-list">
+        <% messages.forEach(msg => { %>
+          <div class="admin-message-card <%= !msg.is_read ? 'unread' : '' %>">
+            <div class="msg-header">
+              <strong><%= msg.username %></strong>
+              <span><%= new Date(msg.created_at).toLocaleString('pt-BR') %></span>
+            </div>
+            <div class="msg-body">
+              <p><%= msg.message %></p>
+              <% if (msg.response) { %>
+                <div class="admin-response">
+                  <strong>Sua resposta:</strong>
+                  <p><%= msg.response %></p>
+                </div>
+              <% } else { %>
+                <div class="respond-form">
+                  <textarea id="response_<%= msg.id %>" rows="2" placeholder="Digite sua resposta..."></textarea>
+                  <button onclick="respond(<%= msg.id %>)" class="btn-sm btn-primary">Responder</button>
+                </div>
+              <% } %>
+            </div>
+          </div>
+        <% }) %>
+        <% if (messages.length === 0) { %>
+          <p>Nenhuma mensagem.</p>
+        <% } %>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    async function respond(msgId) {
+      const response = document.getElementById('response_' + msgId).value;
+      if (!response) return alert('Digite uma resposta');
+      
+      const res = await fetch('/admin/support/respond', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messageId: msgId, response })
+      });
+      const json = await res.json();
+      if (json.success) location.reload();
+    }
+  </script>
+</body>
+</html>
