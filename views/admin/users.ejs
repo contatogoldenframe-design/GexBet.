@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Usuários - GexBet Admin</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <h2>👑 GexBet Admin</h2>
+      <nav>
+        <a href="/admin">📊 Dashboard</a>
+        <a href="/admin/users" class="active">👥 Usuários</a>
+        <a href="/admin/transactions">📋 Transações</a>
+        <a href="/admin/finances">💰 Financeiro</a>
+        <a href="/admin/games-config">🎮 Config. Jogos</a>
+        <a href="/admin/support">📨 Suporte</a>
+        <a href="/admin/settings">⚙️ Configurações</a>
+        <a href="/admin/logs">📜 Logs</a>
+        <a href="/">🏠 Voltar</a>
+        <a href="/auth/logout">🚪 Sair</a>
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <h1>👥 Gerenciar Usuários</h1>
+      <div class="table-container">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Usuário</th>
+              <th>Email</th>
+              <th>Coins</th>
+              <th>Total Depositado</th>
+              <th>Total Sacado</th>
+              <th>Total Apostado</th>
+              <th>Total Ganho</th>
+              <th>Tipo</th>
+              <th>Status</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% users.forEach(u => { %>
+              <tr>
+                <td><%= u.id %></td>
+                <td><%= u.username %></td>
+                <td><%= u.email %></td>
+                <td><%= parseFloat(u.coins).toFixed(2) %></td>
+                <td>R$ <%= parseFloat(u.total_deposited).toFixed(2) %></td>
+                <td>R$ <%= parseFloat(u.total_withdrawn).toFixed(2) %></td>
+                <td>R$ <%= parseFloat(u.total_bet).toFixed(2) %></td>
+                <td>R$ <%= parseFloat(u.total_won).toFixed(2) %></td>
+                <td>
+                  <% if (u.is_admin) { %><span class="badge badge-admin">Admin</span><% } %>
+                  <% if (u.is_demo) { %><span class="badge badge-demo">Demo</span><% } %>
+                  <% if (!u.is_admin && !u.is_demo) { %><span class="badge badge-user">Jogador</span><% } %>
+                </td>
+                <td>
+                  <% if (u.is_banned) { %><span class="badge badge-banned">Banido</span><% } %>
+                  <% if (!u.is_banned) { %><span class="badge badge-active">Ativo</span><% } %>
+                </td>
+                <td>
+                  <% if (!u.is_admin) { %>
+                    <button onclick="toggleBan(<%= u.id %>)" class="btn-sm <%= u.is_banned ? 'btn-unban' : 'btn-ban' %>">
+                      <%= u.is_banned ? 'Desbanir' : 'Banir' %>
+                    </button>
+                  <% } %>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    async function toggleBan(userId) {
+      if (!confirm('Tem certeza?')) return;
+      const res = await fetch('/admin/users/ban', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId })
+      });
+      const json = await res.json();
+      if (json.success) location.reload();
+    }
+  </script>
+</body>
+</html>
