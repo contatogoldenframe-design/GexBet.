@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jogos - GexBet</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/games.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <a href="/" class="logo">🎰 GexBet</a>
+      <div class="nav-links">
+        <a href="/">Início</a>
+        <a href="/games">Jogos</a>
+        <% if (user) { %>
+          <a href="/wallet/deposit">Depositar</a>
+          <a href="/wallet/withdraw">Sacar</a>
+          <span class="coins">💰 <%= user.coins.toFixed(2) %> coins</span>
+          <span class="username"><%= user.username %></span>
+          <a href="/auth/logout" class="btn-logout">Sair</a>
+        <% } %>
+      </div>
+    </div>
+  </nav>
+
+  <div class="games-container">
+    <h1>🎮 Escolha seu Jogo</h1>
+    <div class="games-grid">
+      <% games.forEach(game => { %>
+        <div class="game-card-large">
+          <div class="game-icon-large">
+            <% if (game.id === 'fortune-tiger') { %>🐯<% } %>
+            <% if (game.id === 'slots') { %>🎰<% } %>
+            <% if (game.id === 'crash') { %>✈️<% } %>
+          </div>
+          <h2><%= game.name %></h2>
+          <p>Aposta mínima: <%= game.minBet %> coin</p>
+          <a href="/games/<%= game.id %>" class="btn-play-large">Jogar Agora</a>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+</body>
+</html>
