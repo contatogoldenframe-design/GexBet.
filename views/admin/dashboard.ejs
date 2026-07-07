@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - GexBet</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <h2>👑 GexBet Admin</h2>
+      <nav>
+        <a href="/admin" class="active">📊 Dashboard</a>
+        <a href="/admin/users">👥 Usuários</a>
+        <a href="/admin/transactions">📋 Transações</a>
+        <a href="/admin/finances">💰 Financeiro</a>
+        <a href="/admin/games-config">🎮 Config. Jogos</a>
+        <a href="/admin/support">📨 Suporte</a>
+        <a href="/admin/settings">⚙️ Configurações</a>
+        <a href="/admin/logs">📜 Logs</a>
+        <a href="/">🏠 Voltar ao Site</a>
+        <a href="/auth/logout">🚪 Sair</a>
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <h1>📊 Dashboard</h1>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <h3>👥 Total Usuários</h3>
+          <p><%= stats.total_users %></p>
+        </div>
+        <div class="stat-card">
+          <h3>💰 Total Depositado</h3>
+          <p>R$ <%= parseFloat(stats.total_deposits || 0).toFixed(2) %></p>
+        </div>
+        <div class="stat-card">
+          <h3>💸 Total Sacado</h3>
+          <p>R$ <%= parseFloat(stats.total_withdraws || 0).toFixed(2) %></p>
+        </div>
+        <div class="stat-card">
+          <h3>🎰 Total Apostado</h3>
+          <p>R$ <%= parseFloat(stats.total_bets || 0).toFixed(2) %></p>
+        </div>
+        <div class="stat-card">
+          <h3>🏆 Total Ganho</h3>
+          <p>R$ <%= parseFloat(stats.total_wins || 0).toFixed(2) %></p>
+        </div>
+        <div class="stat-card warning">
+          <h3>⏳ Depósitos Pendentes</h3>
+          <p><%= pending_deposits %></p>
+        </div>
+        <div class="stat-card warning">
+          <h3>⏳ Saques Pendentes</h3>
+          <p><%= pending_withdraws %></p>
+        </div>
+        <div class="stat-card profit">
+          <h3>📈 Lucro Líquido</h3>
+          <p>R$ <%= parseFloat((stats.total_deposits || 0) - (stats.total_withdraws || 0)).toFixed(2) %></p>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
