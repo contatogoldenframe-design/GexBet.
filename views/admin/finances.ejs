@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Financeiro - GexBet Admin</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <h2>👑 GexBet Admin</h2>
+      <nav>
+        <a href="/admin">📊 Dashboard</a>
+        <a href="/admin/users">👥 Usuários</a>
+        <a href="/admin/transactions">📋 Transações</a>
+        <a href="/admin/finances" class="active">💰 Financeiro</a>
+        <a href="/admin/games-config">🎮 Config. Jogos</a>
+        <a href="/admin/support">📨 Suporte</a>
+        <a href="/admin/settings">⚙️ Configurações</a>
+        <a href="/admin/logs">📜 Logs</a>
+        <a href="/">🏠 Voltar</a>
+        <a href="/auth/logout">🚪 Sair</a>
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <h1>💰 Painel Financeiro</h1>
+      
+      <div class="stats-grid">
+        <div class="stat-card">
+          <h3>💵 Total Recebido (Depósitos)</h3>
+          <p>R$ <%= parseFloat(total_in).toFixed(2) %></p>
+        </div>
+        <div class="stat-card">
+          <h3>💸 Total Pago (Saques)</h3>
+          <p>R$ <%= parseFloat(total_out).toFixed(2) %></p>
+        </div>
+        <div class="stat-card profit">
+          <h3>📈 Saldo Disponível</h3>
+          <p>R$ <%= parseFloat(balance).toFixed(2) %></p>
+        </div>
+      </div>
+
+      <h2>⏳ Pendentes</h2>
+      <div class="table-container">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Usuário</th>
+              <th>Tipo</th>
+              <th>Valor</th>
+              <th>Chave PIX</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (pending.length === 0) { %>
+              <tr><td colspan="6">Nenhuma transação pendente.</td></tr>
+            <% } %>
+            <% pending.forEach(t => { %>
+              <tr>
+                <td><%= t.id %></td>
+                <td><%= t.username %></td>
+                <td><%= t.type === 'deposit' ? 'Depósito' : 'Saque' %></td>
+                <td>R$ <%= parseFloat(t.amount).toFixed(2) %></td>
+                <td><%= t.pix_key || '-' %></td>
+                <td>
+                  <% if (t.type === 'deposit') { %>
+                    <button onclick="confirmDeposit(<%= t.id %>)" class="btn-sm btn-success">Confirmar</button>
+                  <% } %>
+                  <% if (t.type === 'withdraw') { %>
+                    <button onclick="approveWithdraw(<%= t.id %>)" class="btn-sm btn-success">Aprovar</button>
+                  <% } %>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    async function confirmDeposit(id) {
+      if (!confirm('Confirmar depósito?')) return;
+      const res = await fetch('/wallet/admin/confirm-deposit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ transactionId: id })
+      });
+      const json = await res.json();
+      alert(json.message);
+      if (json.success) location.reload();
+    }
+
+    async function approveWithdraw(id) {
+      if (!confirm('Aprovar saque? Você deverá enviar o PIX manualmente.')) return;
+      const res = await fetch('/wallet/admin/approve-withdraw', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ transactionId: id })
+      });
+      const json = await res.json();
+      if (json.success) {
+        alert(`Saque aprovado! Envie R$ ${json.amount} via PIX para: ${json.pixKey}`);
+        location.reload();
+      } else {
+        alert('Erro: ' + json.error);
+      }
+    }
+  </script>
+</body>
+</html>
