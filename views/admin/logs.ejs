@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logs - GexBet Admin</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <h2>👑 GexBet Admin</h2>
+      <nav>
+        <a href="/admin">📊 Dashboard</a>
+        <a href="/admin/users">👥 Usuários</a>
+        <a href="/admin/transactions">📋 Transações</a>
+        <a href="/admin/finances">💰 Financeiro</a>
+        <a href="/admin/games-config">🎮 Config. Jogos</a>
+        <a href="/admin/support">📨 Suporte</a>
+        <a href="/admin/settings">⚙️ Configurações</a>
+        <a href="/admin/logs" class="active">📜 Logs</a>
+        <a href="/">🏠 Voltar</a>
+        <a href="/auth/logout">🚪 Sair</a>
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <h1>📜 Logs do Admin</h1>
+      <div class="table-container">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Data</th>
+              <th>Admin</th>
+              <th>Ação</th>
+              <th>Detalhes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% logs.forEach(log => { %>
+              <tr>
+                <td><%= new Date(log.created_at).toLocaleString('pt-BR') %></td>
+                <td><%= log.username %></td>
+                <td><%= log.action %></td>
+                <td><%= log.details %></td>
+              </tr>
+            <% }) %>
+            <% if (logs.length === 0) { %>
+              <tr><td colspan="4">Nenhum log registrado.</td></tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
