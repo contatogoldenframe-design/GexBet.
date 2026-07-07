@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fortune Tiger - GexBet</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/games.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <a href="/" class="logo">🎰 GexBet</a>
+      <div class="nav-links">
+        <span class="coins">💰 <span id="balanceDisplay"><%= user.coins.toFixed(2) %></span> coins</span>
+        <span class="username"><%= user.username %></span>
+        <a href="/games" class="btn-back">Voltar</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="game-container">
+    <div class="game-header">
+      <h1>🐯 Fortune Tiger</h1>
+      <% if (user.is_demo) { %>
+        <div class="demo-badge">🎬 CONTA DEMO - SEMPRE GANHA!</div>
+      <% } %>
+    </div>
+
+    <div class="tiger-grid" id="tigerGrid">
+      <div class="tiger-cell" id="cell00">🐯</div>
+      <div class="tiger-cell" id="cell01">🐯</div>
+      <div class="tiger-cell" id="cell02">🐯</div>
+      <div class="tiger-cell" id="cell10">🐯</div>
+      <div class="tiger-cell" id="cell11">🐯</div>
+      <div class="tiger-cell" id="cell12">🐯</div>
+      <div class="tiger-cell" id="cell20">🐯</div>
+      <div class="tiger-cell" id="cell21">🐯</div>
+      <div class="tiger-cell" id="cell22">🐯</div>
+    </div>
+
+    <div class="game-controls">
+      <div class="bet-control">
+        <label>Valor da Aposta:</label>
+        <div class="bet-input-group">
+          <button onclick="changeBet(-1)">-</button>
+          <input type="number" id="betAmount" value="1" min="1" step="1">
+          <button onclick="changeBet(1)">+</button>
+        </div>
+      </div>
+      <button onclick="playTiger()" class="btn-spin" id="spinBtn">🎰 GIRAR</button>
+    </div>
+
+    <div class="game-result" id="gameResult"></div>
+    <div class="last-wins" id="lastWins"></div>
+  </div>
+
+  <script src="/js/games/fortune-tiger.js"></script>
+</body>
+</html>
