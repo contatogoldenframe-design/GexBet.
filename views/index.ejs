@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GexBet - Sua Plataforma de Apostas</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <a href="/" class="logo">🎰 GexBet</a>
+      <div class="nav-links">
+        <a href="/">Início</a>
+        <a href="/games">Jogos</a>
+        <% if (user) { %>
+          <a href="/wallet/deposit">Depositar</a>
+          <a href="/wallet/withdraw">Sacar</a>
+          <a href="/support">Suporte</a>
+          <span class="coins">💰 <%= user.coins.toFixed(2) %> coins</span>
+          <span class="username"><%= user.username %></span>
+          <% if (user.is_admin) { %>
+            <a href="/admin" class="admin-btn">Painel Admin</a>
+          <% } %>
+          <a href="/auth/logout" class="btn-logout">Sair</a>
+        <% } else { %>
+          <a href="/login" class="btn-login">Entrar</a>
+          <a href="/register" class="btn-register">Cadastrar</a>
+        <% } %>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="container">
+      <h1>🎰 GexBet</h1>
+      <p>A melhor plataforma de apostas online</p>
+      <div class="hero-buttons">
+        <a href="/games" class="btn-primary">Jogar Agora</a>
+        <% if (!user) { %>
+          <a href="/register" class="btn-secondary">Criar Conta</a>
+        <% } %>
+      </div>
+    </div>
+  </header>
+
+  <section class="games-preview">
+    <div class="container">
+      <h2>Nossos Jogos</h2>
+      <div class="game-cards">
+        <div class="game-card">
+          <div class="game-icon">🐯</div>
+          <h3>Fortune Tiger</h3>
+          <p>O clássico jogo do tigrinho</p>
+          <a href="/games/fortune-tiger" class="btn-play">Jogar</a>
+        </div>
+        <div class="game-card">
+          <div class="game-icon">🎰</div>
+          <h3>Caça Níqueis</h3>
+          <p>Slots clássicos com prêmios</p>
+          <a href="/games/slots" class="btn-play">Jogar</a>
+        </div>
+        <div class="game-card">
+          <div class="game-icon">✈️</div>
+          <h3>Crash</h3>
+          <p>Multiplique seus ganhos</p>
+          <a href="/games/crash" class="btn-play">Jogar</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2026 GexBet. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>
