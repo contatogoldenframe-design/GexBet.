@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro - GexBet</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <a href="/" class="logo">🎰 GexBet</a>
+      <div class="nav-links">
+        <a href="/">Início</a>
+        <a href="/login">Entrar</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="auth-container">
+    <div class="auth-box">
+      <h1>Criar Conta</h1>
+      <% if (typeof error !== 'undefined' && error) { %>
+        <div class="alert alert-error"><%= error %></div>
+      <% } %>
+      <form action="/auth/register" method="POST">
+        <div class="form-group">
+          <label>Usuário</label>
+          <input type="text" name="username" required placeholder="Escolha um usuário">
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" name="email" required placeholder="Seu email">
+        </div>
+        <div class="form-group">
+          <label>Senha</label>
+          <input type="password" name="password" required placeholder="Mínimo 6 caracteres">
+        </div>
+        <div class="form-group">
+          <label>Confirmar Senha</label>
+          <input type="password" name="confirmPassword" required placeholder="Repita a senha">
+        </div>
+        <button type="submit" class="btn-primary btn-full">Cadastrar</button>
+      </form>
+      <p class="auth-link">Já tem conta? <a href="/login">Entre</a></p>
+    </div>
+  </div>
+</body>
+</html>
