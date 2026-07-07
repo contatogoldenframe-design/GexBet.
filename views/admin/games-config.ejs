@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Config. Jogos - GexBet Admin</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <h2>👑 GexBet Admin</h2>
+      <nav>
+        <a href="/admin">📊 Dashboard</a>
+        <a href="/admin/users">👥 Usuários</a>
+        <a href="/admin/transactions">📋 Transações</a>
+        <a href="/admin/finances">💰 Financeiro</a>
+        <a href="/admin/games-config" class="active">🎮 Config. Jogos</a>
+        <a href="/admin/support">📨 Suporte</a>
+        <a href="/admin/settings">⚙️ Configurações</a>
+        <a href="/admin/logs">📜 Logs</a>
+        <a href="/">🏠 Voltar</a>
+        <a href="/auth/logout">🚪 Sair</a>
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <h1>🎮 Configuração dos Jogos</h1>
+      
+      <div class="config-card">
+        <h2>🐯 Fortune Tiger</h2>
+        <div class="form-group">
+          <label>RTP (Retorno ao Jogador) %:</label>
+          <input type="number" id="tiger_rtp" value="<% 
+            const tigerSetting = settings.find(s => s.setting_key === 'tiger_rtp');
+            if (tigerSetting) { %><%= tigerSetting.setting_value %><% } else { %>95<% } %>" min="1" max="100">
+          <small>Quanto maior, mais os jogadores ganham. 95% = padrão.</small>
+        </div>
+      </div>
+
+      <div class="config-card">
+        <h2>🎰 Caça Níqueis</h2>
+        <div class="form-group">
+          <label>RTP (Retorno ao Jogador) %:</label>
+          <input type="number" id="slots_rtp" value="<%
+            const slotsSetting = settings.find(s => s.setting_key === 'slots_rtp');
+            if (slotsSetting) { %><%= slotsSetting.setting_value %><% } else { %>92<% } %>" min="1" max="100">
+        </div>
+      </div>
+
+      <div class="config-card">
+        <h2>✈️ Crash</h2>
+        <div class="form-group">
+          <label>RTP (Retorno ao Jogador) %:</label>
+          <input type="number" id="crash_rtp" value="<%
+            const crashSetting = settings.find(s => s.setting_key === 'crash_rtp');
+            if (crashSetting) { %><%= crashSetting.setting_value %><% } else { %>90<% } %>" min="1" max="100">
+        </div>
+      </div>
+
+      <div class="config-card">
+        <h2>🔒 Bloquear Jogos</h2>
+        <div class="form-group">
+          <label>
+            <input type="checkbox" id="games_blocked" <%= 
+              const blockedSetting = settings.find(s => s.setting_key === 'games_blocked');
+              if (blockedSetting && blockedSetting.setting_value === 'true') { %>checked<% } %>>
+            Bloquear todos os jogos (manutenção)
+          </label>
+        </div>
+      </div>
+
+      <button onclick="saveSettings()" class="btn-primary">💾 Salvar Configurações</button>
+    </main>
+  </div>
+
+  <script>
+    async function saveSettings() {
+      const data = {
+        tiger_rtp: document.getElementById('tiger_rtp').value,
+        slots_rtp: document.getElementById('slots_rtp').value,
+        crash_rtp: document.getElementById('crash_rtp').value,
+        games_blocked: document.getElementById('games_blocked').checked ? 'true' : 'false'
+      };
+
+      const res = await fetch('/admin/settings/update', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      const json = await res.json();
+      alert(json.message);
+    }
+  </script>
+</body>
+</html>
