@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Depositar - GexBet</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <a href="/" class="logo">🎰 GexBet</a>
+      <div class="nav-links">
+        <a href="/">Início</a>
+        <a href="/games">Jogos</a>
+        <span class="coins">💰 <%= user.coins.toFixed(2) %> coins</span>
+        <span class="username"><%= user.username %></span>
+        <a href="/auth/logout" class="btn-logout">Sair</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="wallet-container">
+    <h1>💰 Depositar</h1>
+    
+    <% if (typeof error !== 'undefined' && error) { %>
+      <div class="alert alert-error"><%= error %></div>
+    <% } %>
+
+    <% if (qrcode) { %>
+      <div class="pix-container">
+        <h2>Pague via PIX</h2>
+        <div class="pix-qrcode">
+          <img src="<%= qrcode %>" alt="QR Code PIX">
+        </div>
+        <div class="pix-info">
+          <p><strong>Valor:</strong> R$ <%= parseFloat(amount).toFixed(2) %></p>
+          <p><strong>Referência:</strong> <%= reference %></p>
+          <p class="pix-warning">⚠️ O dinheiro vai direto para a conta do administrador.</p>
+          <p class="pix-warning">⏳ Após pagar, aguarde a confirmação manual do admin.</p>
+        </div>
+        <div class="pix-payload">
+          <p><strong>Ou copie o código PIX:</strong></p>
+          <textarea readonly onclick="this.select()"><%= payload %></textarea>
+          <button onclick="copyPix()" class="btn-secondary">Copiar Código PIX</button>
+        </div>
+      </div>
+    <% } else { %>
+      <div class="deposit-form">
+        <p>Depósito mínimo: R$ <%= process.env.MIN_DEPOSIT %></p>
+        <p>💰 1 real = 1 coin</p>
+        <form action="/wallet/deposit/generate" method="POST">
+          <div class="form-group">
+            <label>Valor (R$):</label>
+            <input type="number" name="amount" min="<%= process.env.MIN_DEPOSIT %>" step="1" required placeholder="Ex: 20">
+          </div>
+          <button type="submit" class="btn-primary btn-full">Gerar QR Code PIX</button>
+        </form>
+      </div>
+    <% } %>
+  </div>
+
+  <script>
+    function copyPix() {
+      const textarea = document.querySelector('.pix-payload textarea');
+      textarea.select();
+      document.execCommand('copy');
+      alert('Código PIX copiado!');
+    }
+  </script>
+</body>
+</html>
