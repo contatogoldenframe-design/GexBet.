@@ -1,0 +1,305 @@
+.games-container {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.games-container h1 {
+  color: #ffd700;
+  margin-bottom: 40px;
+}
+
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+.game-card-large {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  border-radius: 15px;
+  padding: 50px 30px;
+  text-align: center;
+  transition: all 0.3s;
+}
+
+.game-card-large:hover {
+  transform: translateY(-10px);
+  border-color: #ffd700;
+  box-shadow: 0 20px 40px rgba(255, 215, 0, 0.1);
+}
+
+.game-icon-large {
+  font-size: 80px;
+  margin-bottom: 20px;
+}
+
+.game-card-large h2 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.game-card-large p {
+  color: #888;
+  margin-bottom: 25px;
+}
+
+.btn-play-large {
+  background: linear-gradient(135deg, #ffd700, #ff8c00);
+  color: #000;
+  padding: 12px 40px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 18px;
+  display: inline-block;
+}
+
+.game-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.game-header h1 {
+  color: #ffd700;
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.demo-badge {
+  background: linear-gradient(135deg, #ffd700, #ff8c00);
+  color: #000;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-weight: 700;
+  display: inline-block;
+  margin-bottom: 20px;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* Fortune Tiger Grid */
+.tiger-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  max-width: 400px;
+  margin: 30px auto;
+  background: rgba(255, 215, 0, 0.05);
+  border: 2px solid rgba(255, 215, 0, 0.3);
+  border-radius: 15px;
+  padding: 20px;
+}
+
+.tiger-cell {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  border-radius: 10px;
+  padding: 30px;
+  font-size: 48px;
+  transition: all 0.3s;
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tiger-cell.spinning {
+  animation: spinSymbol 0.1s infinite;
+}
+
+@keyframes spinSymbol {
+  0% { transform: rotateX(0deg); }
+  100% { transform: rotateX(360deg); }
+}
+
+.tiger-cell.win {
+  background: rgba(255, 215, 0, 0.3);
+  border-color: #ffd700;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+/* Slots */
+.slots-machine {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin: 40px 0;
+}
+
+.slot-reel {
+  background: rgba(0, 0, 0, 0.5);
+  border: 2px solid rgba(255, 215, 0, 0.3);
+  border-radius: 10px;
+  padding: 30px 20px;
+  font-size: 64px;
+  min-width: 80px;
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+
+.slot-reel.spinning {
+  animation: spinReel 0.08s infinite;
+}
+
+@keyframes spinReel {
+  0% { transform: translateY(0px); }
+  100% { transform: translateY(-5px); }
+}
+
+.slot-reel.win {
+  background: rgba(255, 215, 0, 0.3);
+  border-color: #ffd700;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+/* Crash */
+.crash-screen {
+  margin: 30px 0;
+}
+
+.crash-canvas-container {
+  position: relative;
+  display: inline-block;
+}
+
+.multiplier-display {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 48px;
+  font-weight: 800;
+  color: #ffd700;
+  text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+  z-index: 10;
+}
+
+#crashCanvas {
+  background: rgba(0, 0, 0, 0.5);
+  border: 2px solid rgba(255, 215, 0, 0.3);
+  border-radius: 15px;
+  max-width: 100%;
+}
+
+/* Game Controls */
+.game-controls {
+  margin: 30px 0;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: end;
+  flex-wrap: wrap;
+}
+
+.bet-control {
+  text-align: left;
+}
+
+.bet-control label {
+  display: block;
+  color: #aaa;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.bet-input-group {
+  display: flex;
+  gap: 0;
+}
+
+.bet-input-group button {
+  background: rgba(255, 215, 0, 0.2);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  color: #fff;
+  padding: 10px 15px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.bet-input-group button:hover {
+  background: rgba(255, 215, 0, 0.4);
+}
+
+.bet-input-group button:first-child {
+  border-radius: 5px 0 0 5px;
+}
+
+.bet-input-group button:last-child {
+  border-radius: 0 5px 5px 0;
+}
+
+.bet-input-group input {
+  width: 80px;
+  text-align: center;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.small-input {
+  width: 80px;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  border-radius: 5px;
+  color: #fff;
+  font-size: 16px;
+  text-align: center;
+}
+
+.btn-spin {
+  background: linear-gradient(135deg, #ff4444, #cc0000);
+  color: #fff;
+  padding: 12px 40px;
+  border: none;
+  border-radius: 5px;
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.btn-spin:hover:not(:disabled) {
+  transform: scale(1.05);
+}
+
+.btn-spin:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.game-result {
+  margin: 20px 0;
+  font-size: 24px;
+  font-weight: 700;
+  min-height: 40px;
+}
+
+.game-result.win {
+  color: #44ff44;
+}
+
+.game-result.lose {
+  color: #ff4444;
+}
+
+.last-wins {
+  margin-top: 20px;
+  color: #888;
+}
