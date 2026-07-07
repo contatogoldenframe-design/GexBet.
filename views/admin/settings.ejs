@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Configurações - GexBet Admin</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <h2>👑 GexBet Admin</h2>
+      <nav>
+        <a href="/admin">📊 Dashboard</a>
+        <a href="/admin/users">👥 Usuários</a>
+        <a href="/admin/transactions">📋 Transações</a>
+        <a href="/admin/finances">💰 Financeiro</a>
+        <a href="/admin/games-config">🎮 Config. Jogos</a>
+        <a href="/admin/support">📨 Suporte</a>
+        <a href="/admin/settings" class="active">⚙️ Configurações</a>
+        <a href="/admin/logs">📜 Logs</a>
+        <a href="/">🏠 Voltar</a>
+        <a href="/auth/logout">🚪 Sair</a>
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <h1>⚙️ Configurações do Sistema</h1>
+      <div class="config-card">
+        <% settings.forEach(s => { %>
+          <div class="form-group">
+            <label><%= s.setting_key %>:</label>
+            <input type="text" id="setting_<%= s.setting_key %>" value="<%= s.setting_value %>">
+          </div>
+        <% }) %>
+        <button onclick="saveAll()" class="btn-primary">💾 Salvar Todas</button>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    async function saveAll() {
+      const data = {};
+      document.querySelectorAll('[id^="setting_"]').forEach(input => {
+        const key = input.id.replace('setting_', '');
+        data[key] = input.value;
+      });
+      
+      const res = await fetch('/admin/settings/update', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      const json = await res.json();
+      alert(json.message);
+    }
+  </script>
+</body>
+</html>
