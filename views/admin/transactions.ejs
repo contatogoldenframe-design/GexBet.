@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transações - GexBet Admin</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <h2>👑 GexBet Admin</h2>
+      <nav>
+        <a href="/admin">📊 Dashboard</a>
+        <a href="/admin/users">👥 Usuários</a>
+        <a href="/admin/transactions" class="active">📋 Transações</a>
+        <a href="/admin/finances">💰 Financeiro</a>
+        <a href="/admin/games-config">🎮 Config. Jogos</a>
+        <a href="/admin/support">📨 Suporte</a>
+        <a href="/admin/settings">⚙️ Configurações</a>
+        <a href="/admin/logs">📜 Logs</a>
+        <a href="/">🏠 Voltar</a>
+        <a href="/auth/logout">🚪 Sair</a>
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <h1>📋 Todas as Transações</h1>
+      <div class="table-container">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Usuário</th>
+              <th>Tipo</th>
+              <th>Valor</th>
+              <th>Status</th>
+              <th>Referência</th>
+              <th>Data</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% transactions.forEach(t => { %>
+              <tr>
+                <td><%= t.id %></td>
+                <td><%= t.username %></td>
+                <td><span class="badge badge-<%= t.type %>"><%= t.type %></span></td>
+                <td>R$ <%= parseFloat(t.amount).toFixed(2) %></td>
+                <td>
+                  <% if (t.status === 'completed') { %><span class="badge badge-success">Completo</span><% } %>
+                  <% if (t.status === 'pending') { %><span class="badge badge-pending">Pendente</span><% } %>
+                  <% if (t.status === 'cancelled') { %><span class="badge badge-cancelled">Cancelado</span><% } %>
+                </td>
+                <td><%= t.reference_id || '-' %></td>
+                <td><%= new Date(t.created_at).toLocaleString('pt-BR') %></td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
