@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Suporte - GexBet</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <a href="/" class="logo">🎰 GexBet</a>
+      <div class="nav-links">
+        <a href="/">Início</a>
+        <a href="/games">Jogos</a>
+        <span class="coins">💰 <%= user.coins.toFixed(2) %> coins</span>
+        <span class="username"><%= user.username %></span>
+        <a href="/auth/logout" class="btn-logout">Sair</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="support-container">
+    <h1>📨 Suporte</h1>
+    
+    <div class="support-form">
+      <h2>Enviar Mensagem</h2>
+      <form id="supportForm">
+        <div class="form-group">
+          <label>Sua Mensagem:</label>
+          <textarea name="message" rows="4" required placeholder="Descreva seu problema ou dúvida..."></textarea>
+        </div>
+        <button type="submit" class="btn-primary">Enviar</button>
+      </form>
+    </div>
+
+    <div class="support-messages">
+      <h2>Suas Mensagens</h2>
+      <% if (messages && messages.length > 0) { %>
+        <% messages.forEach(msg => { %>
+          <div class="message-card">
+            <div class="message-header">
+              <span class="message-date"><%= new Date(msg.created_at).toLocaleString('pt-BR') %></span>
+              <% if (msg.is_responded) { %>
+                <span class="badge badge-success">Respondido</span>
+              <% } else { %>
+                <span class="badge badge-pending">Aguardando</span>
+              <% } %>
+            </div>
+            <div class="message-body">
+              <p><strong>Você:</strong> <%= msg.message %></p>
+              <% if (msg.response) { %>
+                <p class="admin-response"><strong>Admin:</strong> <%= msg.response %></p>
+              <% } %>
+            </div>
+          </div>
+        <% }) %>
+      <% } else { %>
+        <p class="no-messages">Nenhuma mensagem ainda.</p>
+      <% } %>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('supportForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const data = { message: form.message.value };
+      
+      const res = await fetch('/support/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      const json = await res.json();
+      
+      if (json.success) {
+        alert('Mensagem enviada!');
+        location.reload();
+      } else {
+        alert('Erro: ' + json.error);
+      }
+    });
+  </script>
+</body>
+</html>
