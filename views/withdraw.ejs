@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sacar - GexBet</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <a href="/" class="logo">🎰 GexBet</a>
+      <div class="nav-links">
+        <a href="/">Início</a>
+        <a href="/games">Jogos</a>
+        <span class="coins">💰 <%= user.coins.toFixed(2) %> coins</span>
+        <span class="username"><%= user.username %></span>
+        <a href="/auth/logout" class="btn-logout">Sair</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="wallet-container">
+    <h1>💸 Sacar</h1>
+    <p>Saldo disponível: <strong><%= user.coins.toFixed(2) %> coins</strong></p>
+    <p>Mínimo: R$ <%= process.env.MIN_WITHDRAW %> | Máximo: R$ <%= process.env.MAX_WITHDRAW %></p>
+
+    <% if (typeof error !== 'undefined' && error) { %>
+      <div class="alert alert-error"><%= error %></div>
+    <% } %>
+    <% if (typeof success !== 'undefined' && success) { %>
+      <div class="alert alert-success"><%= success %></div>
+    <% } %>
+
+    <form action="/wallet/withdraw/request" method="POST">
+      <div class="form-group">
+        <label>Valor (R$):</label>
+        <input type="number" name="amount" min="<%= process.env.MIN_WITHDRAW %>
+<input type="number" name="amount" min="<%= process.env.MIN_WITHDRAW %>" max="<%= process.env.MAX_WITHDRAW %>" step="1" required placeholder="Ex: 50">
+        </div>
+        <div class="form-group">
+          <label>Sua Chave PIX (CPF, Email ou Telefone):</label>
+          <input type="text" name="pixKey" required placeholder="CPF, email ou telefone">
+        </div>
+        <button type="submit" class="btn-primary btn-full">Solicitar Saque</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
